@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Masking on Hover</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+    body, .mask {
+        font-family: "Archivo", sans-serif;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    body{
+        background: #222;
+    }
+
+    span{
+        color: #DDFC3E;
+    }
+
+    .og p{
+        width: 600px;
+        font-size: 24px;
+        color: rgba(255,255,255,0.4);
+        font-weight: 500;
+        line-height: 1.35;
+    }
+    
+    .mask p{
+        width: 600px;
+        font-size: 24px;
+        color: black;
+        font-weight: 500;
+        line-height: 1.35;
+    }
+
+    .mask span{
+        color: #ff0000;
+    }
+    
+    .mask {
+        position: absolute;
+        mask-image: url(circle.png);
+        background: #DDFC3E;
+        mask-size: var(--mask-size, 20px);
+        mask-repeat: no-repeat;
+        mask-position: var(--mask-x, -50px) var(--mask-y, -50px);
+        pointer-events: none;
+    }
+</style>
+
+<body>
+
+
+    <div class="og">
+        <p>Writing <span>beautiful code</span> means thinking like an artist and debugging like a detective. Every function is a story, every variable a character. Master your craft through practice, patience, and endless curiosity about how things work.</p>
+    </div>
+    <div class="mask">
+        <p>Building <span>great software</span> requires seeing beyond syntax into architecture and design. Test early, refactor often, document clearly. Success comes from collaboration, continuous learning, and caring deeply about user experience.</p>
+    </div>
+
+    <script>
+        const mask = document.querySelector('.mask');
+        const og = document.querySelector('.og');
+        const maskSizeSmall = 20;
+        const maskSizeLarge = 150;
+        let currentSize = maskSizeSmall;
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(mask, {
+                '--mask-x': `${e.clientX - currentSize / 2}px`,
+                '--mask-y': `${e.clientY - currentSize / 2}px`,
+                '--mask-size': `${currentSize}px`,
+                duration: 0.6,
+                ease: 'back.out(1.7)'
+            });
+        });
+        
+        og.addEventListener('mouseenter', () => {
+            currentSize = maskSizeLarge;
+        });
+        
+        og.addEventListener('mouseleave', () => {
+            currentSize = maskSizeSmall;
+        });
+    </script>
+
+</body>
+
+</html>
